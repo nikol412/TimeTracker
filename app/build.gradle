@@ -21,9 +21,9 @@ android {
     signingConfigs {
 
         debugConfig {
-            keyAlias 'androiddebugkey'
+            keyAlias 'key0'
             keyPassword 'android'
-            storeFile file('debug.keystore')
+            storeFile file('debug_keystore_timeTracker.jks')
             storePassword 'android'
         }
     }
