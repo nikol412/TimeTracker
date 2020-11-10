@@ -24,15 +24,14 @@ class DatabaseModule(val context: Context) {
     }
 
     private fun createDefaultRealmConfig() {
-        deleteDBFile()
         val key = ByteArray(64)
         SecureRandom().nextBytes(key)
         val config = RealmConfiguration.Builder()
             .name("time_tracker.realm")
             .apply {
                 if(BuildConfig.DEBUG.not()) {
-                    inMemory()
-                    encryptionKey(key)
+//                    inMemory()
+//                    encryptionKey(key)
                 }
             }
         //TODO REMINDER: after release use migrations
