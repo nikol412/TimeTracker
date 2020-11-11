@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.example.timetracker.ui.fragment.OkDialogFragment
 import dagger.android.support.DaggerFragment
 
 abstract class BaseFragment : Fragment() {
@@ -25,11 +27,17 @@ abstract class BaseFragment : Fragment() {
 
     protected open fun subscribeToViewModelsObservables() {
         with(baseViewModel()) {
-            // TODO: implement this after implementing baseViewModel
+            onAlertDialogNeeded.observe(viewLifecycleOwner, Observer { alert ->
+                showAlertDialogFragment(alert.title, alert.message, alert.onYesClick)
+            })
         }
     }
 
-    protected fun showAlertDialogFragment(title: String? = null, message: String? = null) {
-        // TODO: implement this after implementing baseViewModel
+    protected fun showAlertDialogFragment(title: String, message: String? = null, onYesClick: (() -> Unit)? = null) {
+        OkDialogFragment(
+            title = title,
+            description = message,
+            onYesClick = onYesClick
+        ).show(requireActivity().supportFragmentManager, "")
     }
 }

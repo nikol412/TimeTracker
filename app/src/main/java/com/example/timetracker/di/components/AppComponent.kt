@@ -6,7 +6,7 @@ import com.example.timetracker.di.modules.FragmentInjectorsModule
 import com.example.timetracker.di.modules.AppModule
 import com.example.timetracker.di.modules.DatabaseModule
 import com.example.timetracker.ui.base.BaseViewModel
-import com.example.timetracker.ui.home.HomeViewModel
+import com.example.timetracker.ui.fragment.home.HomeViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule

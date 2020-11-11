@@ -1,8 +1,7 @@
-package com.example.timetracker.ui.notifications
+package com.example.timetracker.ui.fragment.notifications
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.timetracker.ui.base.BaseViewModel
 
 class NotificationsViewModel : BaseViewModel() {
