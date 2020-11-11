@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.timetracker.App
 import com.example.timetracker.data.db.model.User
 import com.example.timetracker.data.db.repository.UserRepository
+import com.example.timetracker.ui.base.BaseViewModel
 import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel : BaseViewModel() {
 
     @Inject
     lateinit var userRepository: UserRepository
