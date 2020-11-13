@@ -1,6 +1,5 @@
 package com.example.timetracker.ui.fragment.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
 import com.example.timetracker.data.db.model.User
@@ -14,18 +13,15 @@ class HomeViewModel : BaseViewModel() {
     @Inject
     lateinit var userRepository: UserRepository
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    var homeLabel = MutableLiveData<String>()
 
     init {
         App.appComponent?.inject(this)
 
         userRepository.createUser(User(1))
         userRepository.getUserAsync()?.addChangeListener<User> { data, changeSet ->
-            _text.value = data.firstName + data.lastName
             onAlertDialogNeeded.value = AlertObject("Success", "User was created")
+            homeLabel.value = data.firstName + data.lastName + "cool".repeat(3)
         }
 
 
