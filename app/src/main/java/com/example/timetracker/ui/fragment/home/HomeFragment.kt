@@ -10,6 +10,8 @@ import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
 import com.example.timetracker.ui.base.BaseViewModel
+import com.example.timetracker.ui.fragment.newItem.NewItemBottomSheetDialog
+
 
 class HomeFragment : BaseFragment() {
 
@@ -33,6 +35,9 @@ class HomeFragment : BaseFragment() {
         adapter.setItems(viewModel.items)
         binding.homeRecyclerView.adapter = adapter
 
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        fragmentTransaction.addToBackStack(null)
+        NewItemBottomSheetDialog().show(fragmentTransaction, "")
         return binding.root
     }
 }
