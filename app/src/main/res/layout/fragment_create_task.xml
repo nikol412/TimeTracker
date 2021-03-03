@@ -10,15 +10,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:paddingBottom="40dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_create_task"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@android:drawable/ic_popup_sync"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_add"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> vm.onCreateTaskClick()}"/>
 
         <EditText
             android:id="@+id/edittext_task_name"
@@ -26,6 +29,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/button_create_task"
             android:layout_marginTop="10dp"
+            android:maxLines="1"
             android:background="@color/colorPrimaryDark"
             android:text="@={vm.taskName}"/>
 
@@ -36,7 +40,9 @@
             app:layout_constraintTop_toBottomOf="@+id/edittext_task_name"
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimaryDark"
-            android:text="@={vm.taskDate}"/>
+            android:text="@={vm.taskDate}"
+            android:maxLines="1"
+            android:onClick="@{() -> vm.onDateClick()}"/>
 
         <EditText
             android:id="@+id/edittext_task_description"
@@ -44,6 +50,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/textview_task_date"
             android:layout_marginTop="10dp"
+            android:lines="4"
+            android:maxLines="10"
             android:background="@color/colorPrimaryDark"
             android:text="@={vm.taskDescription}"/>
 
