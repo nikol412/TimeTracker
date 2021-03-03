@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
 import com.example.timetracker.ui.base.BaseViewModel
+import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogFragment
 
 class HomeFragment : BaseFragment() {
 
@@ -20,6 +22,10 @@ class HomeFragment : BaseFragment() {
 
     lateinit var binding: FragmentHomeBinding
     lateinit var adapter: ItemsAdapter
+
+    val createTaskFragment by lazy {
+        CreateTaskBottomSheetDialogFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,5 +40,13 @@ class HomeFragment : BaseFragment() {
         binding.homeRecyclerView.adapter = adapter
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.fabCreateCard.setOnClickListener {
+            createTaskFragment.show(childFragmentManager, "bottomSheet")
+        }
     }
 }
