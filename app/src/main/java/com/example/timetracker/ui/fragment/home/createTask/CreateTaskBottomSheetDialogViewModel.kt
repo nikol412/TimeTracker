@@ -1,12 +1,17 @@
 package com.example.timetracker.ui.fragment.home.createTask
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.timetracker.App
 import com.example.timetracker.common.live.SingleLiveEvent
+import com.example.timetracker.data.db.model.Task
+import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.ui.base.BaseViewModel
+import javax.inject.Inject
 
-class CreateTaskBottomSheetDialogViewModel: BaseViewModel() {
+class CreateTaskBottomSheetDialogViewModel : BaseViewModel() {
+
+    @Inject
+    lateinit var taskRepository: TaskRepository
 
     val taskName = MutableLiveData("")
     val taskDescription = MutableLiveData("")
@@ -19,6 +24,8 @@ class CreateTaskBottomSheetDialogViewModel: BaseViewModel() {
     }
 
     fun onCreateTaskClick() {
+        App.appComponent?.inject(this)
+        taskRepository.createTask(Task(taskName.value!!, taskDate.value!!, taskDescription.value!!))
         event.value = CreateTaskEvent.ADD_TASK
     }
 
