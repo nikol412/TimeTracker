@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetracker.R
+import com.example.timetracker.data.db.model.Task
 
 class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mItems: List<String> = mutableListOf()
+    private var mItems: List<Task> = mutableListOf()
 
-    fun setItems(items: List<String>) {
+    fun setItems(items: List<Task>) {
         mItems = items
         notifyDataSetChanged()
     }
@@ -25,7 +26,7 @@ class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ItemViewHolder -> {
-                holder.onBind()
+                holder.onBind(mItems[position])
             }
         }
     }
@@ -42,10 +43,10 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val itemCategory = itemView.findViewById<TextView>(R.id.task_category)
     private val itemDate = itemView.findViewById<TextView>(R.id.task_date)
 
-    fun onBind() {
-        itemName.text = "test name"
-        itemCategory.text = "test category"
-        itemDate.text = "21 Nov"
+    fun onBind(task: Task) {
+        itemName.text = task.title
+        itemCategory.text = task.description
+        itemDate.text = task.date
 
     }
 }

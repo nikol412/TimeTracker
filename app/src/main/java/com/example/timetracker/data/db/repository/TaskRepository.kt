@@ -15,7 +15,7 @@ class TaskRepository @Inject constructor() : IRepository {
 
     fun createTask(task: Task) {
         realm?.executeTransaction { realm ->
-            realm.copyToRealmOrUpdate(task)
+            realm.copyToRealm(task)
         }
     }
 

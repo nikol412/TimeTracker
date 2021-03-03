@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
@@ -36,7 +35,7 @@ class HomeFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         adapter = ItemsAdapter()
-        adapter.setItems(viewModel.items)
+
         binding.homeRecyclerView.adapter = adapter
 
         return binding.root
@@ -45,6 +44,9 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.tasks.observe(viewLifecycleOwner, { listOfTasks ->
+            adapter.setItems(listOfTasks)
+        })
         binding.fabCreateCard.setOnClickListener {
             createTaskFragment.show(childFragmentManager, "bottomSheet")
         }

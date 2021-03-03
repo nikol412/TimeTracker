@@ -2,9 +2,12 @@ package com.example.timetracker.ui.fragment.home
 
 import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
+import com.example.timetracker.data.db.model.Task
 import com.example.timetracker.data.db.model.User
+import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.data.db.repository.UserRepository
 import com.example.timetracker.ui.base.BaseViewModel
+import io.realm.RealmResults
 import javax.inject.Inject
 
 class HomeViewModel : BaseViewModel() {
@@ -12,14 +15,17 @@ class HomeViewModel : BaseViewModel() {
     @Inject
     lateinit var userRepository: UserRepository
 
+    @Inject
+    lateinit var taskRepository: TaskRepository
+
     var homeLabel = MutableLiveData<String>()
-    var items = (1..20).map { it.toString() }.toMutableList()
+    var tasks = MutableLiveData<List<Task>>()
 
     init {
         App.appComponent?.inject(this)
 
-        userRepository.createUser(User(1))
-        userRepository.getUserAsync()?.addChangeListener<User> { data, changeSet ->
+        taskRepository.getTasksAsync()?.addChangeListener { result, changeSet ->
+            tasks.value = result.toList()
         }
     }
 }

@@ -2,11 +2,13 @@ package com.example.timetracker.data.db.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import io.realm.annotations.Required
 
 open class Task : RealmObject {
 
     @PrimaryKey
-    private var id = 0
+    @Required
+    private var id: String? = null
 
     var title: String = ""
     var date: String = ""
