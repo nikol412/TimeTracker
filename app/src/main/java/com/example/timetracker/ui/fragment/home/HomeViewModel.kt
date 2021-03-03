@@ -13,28 +13,7 @@ class HomeViewModel : BaseViewModel() {
     lateinit var userRepository: UserRepository
 
     var homeLabel = MutableLiveData<String>()
-    var items = mutableListOf(
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20
-    ).map { it.toString() }
+    var items = (1..20).map { it.toString() }.toMutableList()
 
     init {
         App.appComponent?.inject(this)
