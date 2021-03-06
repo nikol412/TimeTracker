@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffecda</color>
-    <color name="colorPrimaryDark">#d4a5a5</color>
-    <color name="colorAccent">#f9ffea</color>
+    <color name="colorPrimary">#FFF</color>
+    <color name="colorPrimaryDark">#F7F8FC</color>
+    <color name="colorAccent">#E95175</color>
+
+    <color name="appColorSurface">#F7F8FC</color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>
+
+    <color name="grayDark">#ABB0B4</color>
 </resources>

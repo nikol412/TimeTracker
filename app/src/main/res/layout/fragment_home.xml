@@ -45,8 +45,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/md_btn_selected"
+            app:srcCompat="@drawable/ic_add"
             app:tint="@android:color/white"
+            android:backgroundTint="@color/colorAccent"
             android:layout_margin="24dp"
             android:layout_gravity="bottom|end"/>
 

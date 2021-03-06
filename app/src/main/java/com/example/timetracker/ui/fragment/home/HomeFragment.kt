@@ -22,7 +22,7 @@ class HomeFragment : BaseFragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var adapter: ItemsAdapter
 
-    val createTaskFragment by lazy {
+    private val createTaskFragment by lazy {
         CreateTaskBottomSheetDialogFragment()
     }
 

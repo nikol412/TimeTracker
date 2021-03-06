@@ -30,4 +30,16 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="home_task_item_title">
+        <item name="android:fontFamily">@font/noto_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="home_task_item_description">
+        <item name="android:fontFamily">@font/noto_sans_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grayDark</item>
+    </style>
+
 </resources>
