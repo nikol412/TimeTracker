@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -29,19 +30,22 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/button_create_task"
             android:layout_marginTop="10dp"
-            android:maxLines="1"
-            android:background="@color/colorPrimaryDark"
-            android:text="@={vm.taskName}"/>
+            style="@style/create_task_name"
+            android:text="@={vm.taskName}"
+            tools:text="Buy eggs"/>
 
         <TextView
             android:id="@+id/textview_task_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_task_name"
             android:layout_marginTop="10dp"
-            android:background="@color/colorPrimaryDark"
             android:text="@={vm.taskDate}"
             android:maxLines="1"
+            tools:text="12/03/2021"
+            style="@style/create_task_text_view"
+            android:layout_marginStart="10dp"
             android:onClick="@{() -> vm.onDateClick()}"/>
 
         <EditText
@@ -49,10 +53,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/textview_task_date"
-            android:layout_marginTop="10dp"
-            android:lines="4"
-            android:maxLines="10"
-            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            style="@style/create_task_description"
             android:text="@={vm.taskDescription}"/>
 
 

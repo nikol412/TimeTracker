@@ -44,8 +44,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add"
-            app:tint="@android:color/white"
-            android:backgroundTint="@color/colorAccent"
             android:layout_margin="24dp"
             android:layout_gravity="bottom|end"/>
 
