@@ -127,4 +127,7 @@ dependencies {
 
     //Material Dialogs Core
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
+
+    // Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
