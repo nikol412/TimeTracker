@@ -6,6 +6,7 @@ import com.example.timetracker.di.modules.FragmentInjectorsModule
 import com.example.timetracker.di.modules.AppModule
 import com.example.timetracker.di.modules.DatabaseModule
 import com.example.timetracker.ui.base.BaseViewModel
+import com.example.timetracker.ui.fragment.dashboard.DashboardViewModel
 import com.example.timetracker.ui.fragment.home.HomeViewModel
 import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogFragment
 import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogViewModel
@@ -42,5 +43,7 @@ interface AppComponent {
     fun inject(homeVM: HomeViewModel)
 
     fun inject(createTaskBottomSheetDialogViewModel: CreateTaskBottomSheetDialogViewModel)
+
+    fun inject(dashboardVM: DashboardViewModel)
 
 }
