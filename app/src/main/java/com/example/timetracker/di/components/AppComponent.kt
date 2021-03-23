@@ -7,6 +7,7 @@ import com.example.timetracker.di.modules.AppModule
 import com.example.timetracker.di.modules.DatabaseModule
 import com.example.timetracker.ui.base.BaseViewModel
 import com.example.timetracker.ui.fragment.home.HomeViewModel
+import com.example.timetracker.ui.fragment.newItem.NewItemViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -39,4 +40,5 @@ interface AppComponent {
 
     fun inject(homeVM: HomeViewModel)
 
+    fun inject(newItem: NewItemViewModel)
 }

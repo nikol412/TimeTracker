@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentNewItemBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,5 +34,10 @@ class NewItemBottomSheetDialog: BottomSheetDialogFragment() {
         binding.filledExposedDropdown.setAdapter(adapter)
     }
 
+    fun subscribeToViewModel() {
+        viewModel.onCloseNeeded.observe(viewLifecycleOwner, Observer {
+            this.dismiss()
+        })
+    }
 
 }
