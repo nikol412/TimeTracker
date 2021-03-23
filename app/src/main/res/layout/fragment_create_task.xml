@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:paddingBottom="40dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_create_task"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_add"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> vm.onCreateTaskClick()}"
+            android:foreground="?selectableItemBackground"/>
+
+        <EditText
+            android:id="@+id/edittext_task_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/button_create_task"
+            android:layout_marginTop="10dp"
+            style="@style/create_task_name"
+            android:text="@={vm.taskName}"
+            tools:text="Buy eggs"
+            android:foreground="?selectableItemBackground"/>
+
+        <TextView
+            android:id="@+id/textview_task_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_task_name"
+            android:layout_marginTop="10dp"
+            android:text="@={vm.taskDate}"
+            android:maxLines="1"
+            tools:text="12/03/2021"
+            style="@style/create_task_text_view"
+            android:layout_marginStart="10dp"
+            android:onClick="@{() -> vm.onDateClick()}"/>
+
+        <EditText
+            android:id="@+id/edittext_task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textview_task_date"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            style="@style/create_task_description"
+            android:text="@={vm.taskDescription}"
+            android:foreground="?selectableItemBackground"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

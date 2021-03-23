@@ -32,6 +32,11 @@ class TaskRepository @Inject constructor() : IRepository {
             .findAllAsync()
     }
 
+    fun getTasksAsync(): RealmResults<Task> {
+        return realm.where(Task::class.java)
+            .findAll()
+    }
+
 
     override fun close() {
         realm.close()

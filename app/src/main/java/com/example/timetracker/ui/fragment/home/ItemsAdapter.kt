@@ -6,12 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timetracker.R
+import com.example.timetracker.data.db.model.Task
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mItems: List<String> = mutableListOf()
+    private var mItems: List<Task> = mutableListOf()
 
-    fun setItems(items: List<String>) {
+    fun setItems(items: List<Task>) {
         mItems = items
         notifyDataSetChanged()
     }
@@ -25,7 +29,7 @@ class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ItemViewHolder -> {
-                holder.onBind()
+                holder.onBind(mItems[position])
             }
         }
     }
@@ -42,10 +46,35 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val itemCategory = itemView.findViewById<TextView>(R.id.task_category)
     private val itemDate = itemView.findViewById<TextView>(R.id.task_date)
 
-    fun onBind() {
-        itemName.text = "test name"
-        itemCategory.text = "test category"
-        itemDate.text = "21 Nov"
+    fun onBind(task: Task) {
+        task.createdAt?.let { date ->
+            itemDate.text = getCharacterDate(date)
+        }
+        itemName.text = task.title
+        itemCategory.text = task.description
 
+    }
+
+    private fun getCharacterDate(stringDate: String): String {
+        if(stringDate.isBlank()) return ""
+
+        val calendar = Calendar.getInstance()
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+
+        var finalDate = ""
+        sdf.parse(stringDate)?.let { date ->
+            calendar.time = date
+            val outputFormat = SimpleDateFormat("dd MMM")
+            val outputFormatWithYear = SimpleDateFormat("dd MMM yyyy")
+            finalDate = if (calendar.get(Calendar.YEAR) == Calendar.getInstance()
+                    .get(Calendar.YEAR)
+            ) outputFormat.format(calendar.time) else outputFormatWithYear.format(calendar.time)
+        }
+        return finalDate
+    }
+    private fun getCharacterDate(date: Date): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val dateString = sdf.format(date)
+        return getCharacterDate(dateString)
     }
 }

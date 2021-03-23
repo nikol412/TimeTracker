@@ -11,7 +11,7 @@ import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
 import com.example.timetracker.ui.base.BaseViewModel
 import com.example.timetracker.ui.fragment.newItem.NewItemBottomSheetDialog
-
+import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogFragment
 
 class HomeFragment : BaseFragment() {
 
@@ -23,6 +23,10 @@ class HomeFragment : BaseFragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var adapter: ItemsAdapter
 
+    private val createTaskFragment by lazy {
+        CreateTaskBottomSheetDialogFragment()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,12 +36,23 @@ class HomeFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         adapter = ItemsAdapter()
-        adapter.setItems(viewModel.items)
+
         binding.homeRecyclerView.adapter = adapter
 
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.addToBackStack(null)
-        NewItemBottomSheetDialog().show(fragmentTransaction, "")
+//        NewItemBottomSheetDialog().show(fragmentTransaction, "")
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.tasks.observe(viewLifecycleOwner, { listOfTasks ->
+            adapter.setItems(listOfTasks)
+        })
+        binding.fabCreateCard.setOnClickListener {
+            createTaskFragment.show(childFragmentManager, "bottomSheet")
+        }
     }
 }
