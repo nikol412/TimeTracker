@@ -1,4 +1,4 @@
-package com.example.timetracker.ui.fragment.notifications
+package com.example.timetracker.ui.fragment.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

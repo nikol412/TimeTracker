@@ -1,4 +1,4 @@
-package com.example.timetracker.ui.fragment.notifications
+package com.example.timetracker.ui.fragment.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

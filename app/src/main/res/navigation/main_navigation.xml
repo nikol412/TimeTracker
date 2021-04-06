@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.timetracker.ui.fragment.notifications.SettingsFragment"
+        android:name="com.example.timetracker.ui.fragment.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>
