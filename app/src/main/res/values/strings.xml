@@ -10,4 +10,5 @@
     <string name="category">Category</string>
     <string name="task_title">Task title</string>
     <string name="date">Date</string>
+    <string name="today">Today</string>
 </resources>

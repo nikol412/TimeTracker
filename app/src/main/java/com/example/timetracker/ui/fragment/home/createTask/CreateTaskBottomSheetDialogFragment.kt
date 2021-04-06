@@ -36,7 +36,8 @@ class CreateTaskBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     val dateListener =
         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            viewModel.taskDate.value = "$dayOfMonth/$month/$year"
+            val validMonth = month + 1
+            viewModel.taskDate.value = "$dayOfMonth/$validMonth/$year"
         }
 
     override fun onCreateView(

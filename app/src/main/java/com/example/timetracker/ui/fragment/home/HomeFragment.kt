@@ -10,7 +10,6 @@ import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
 import com.example.timetracker.ui.base.BaseViewModel
-import com.example.timetracker.ui.fragment.newItem.NewItemBottomSheetDialog
 import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogFragment
 
 class HomeFragment : BaseFragment() {
@@ -21,7 +20,10 @@ class HomeFragment : BaseFragment() {
     override fun layoutRes(): Int = R.layout.fragment_home
 
     lateinit var binding: FragmentHomeBinding
-    lateinit var adapter: ItemsAdapter
+
+    val adapter: ItemsAdapter by lazy { ItemsAdapter() }
+    val todayAdapter: ItemsAdapter by lazy { ItemsAdapter() }
+
 
     private val createTaskFragment by lazy {
         CreateTaskBottomSheetDialogFragment()
@@ -35,13 +37,12 @@ class HomeFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        adapter = ItemsAdapter()
 
+        binding.recyclerViewTodayTasks.adapter = todayAdapter
         binding.homeRecyclerView.adapter = adapter
 
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.addToBackStack(null)
-//        NewItemBottomSheetDialog().show(fragmentTransaction, "")
         return binding.root
     }
 
@@ -50,6 +51,14 @@ class HomeFragment : BaseFragment() {
 
         viewModel.tasks.observe(viewLifecycleOwner, { listOfTasks ->
             adapter.setItems(listOfTasks)
+        })
+
+        viewModel.todayTasks.observe(viewLifecycleOwner, { tasks ->
+            todayAdapter.setItems(tasks)
+
+            if (tasks.isEmpty()) {
+                binding.cardViewTodayTasks.visibility = View.GONE
+            }
         })
         binding.fabCreateCard.setOnClickListener {
             createTaskFragment.show(childFragmentManager, "bottomSheet")
