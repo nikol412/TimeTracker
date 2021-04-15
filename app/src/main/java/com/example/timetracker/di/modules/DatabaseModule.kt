@@ -2,6 +2,8 @@ package com.example.timetracker.di.modules
 
 import android.content.Context
 import android.util.Log
+import com.example.timetracker.data.preferences.TimeTrackerPreferences
+import com.example.timetracker.data.preferences.TimeTrackerPreferencesImpl
 import dagger.Module
 import dagger.Provides
 import io.realm.BuildConfig
@@ -9,6 +11,7 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import java.io.File
 import java.security.SecureRandom
+import javax.inject.Singleton
 
 @Module
 class DatabaseModule(val context: Context) {
@@ -29,12 +32,12 @@ class DatabaseModule(val context: Context) {
         val config = RealmConfiguration.Builder()
             .name("time_tracker.realm")
             .apply {
-                if(BuildConfig.DEBUG.not()) {
+                if (BuildConfig.DEBUG.not()) {
 //                    inMemory()
 //                    encryptionKey(key)
                 }
             }
-        //TODO REMINDER: after release use migrations
+            //TODO REMINDER: after release use migrations
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
@@ -51,5 +54,13 @@ class DatabaseModule(val context: Context) {
             Log.e("DatabaseModule", ex.message, ex)
         }
         //}
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferences(): TimeTrackerPreferences {
+        return TimeTrackerPreferencesImpl(
+            context.applicationContext.getSharedPreferences("TimeTrackerPreds", Context.MODE_PRIVATE)
+        )
     }
 }
