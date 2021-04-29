@@ -29,6 +29,12 @@ class TaskRepository @Inject constructor() : IRepository {
             .findAllAsync()
     }
 
+    fun cleanTasksAsync() {
+        realm.executeTransactionAsync {
+            it.deleteAll()
+        }
+    }
+
 
     override fun close() {
         realm.close()
