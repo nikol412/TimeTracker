@@ -45,14 +45,6 @@ class SettingsViewModel : BaseViewModel() {
     fun onChangePasswordClick() {
         settingsEvents.value = SettingsEvents.CHANGE_PASSWORD
     }
-
-    // fields:
-    // 1) app icon in header
-    // 2) clean data
-    // 3) change password
-    // 4) use biometric
-    // 5) show today section in tasks
-
 }
 
 enum class SettingsEvents {
