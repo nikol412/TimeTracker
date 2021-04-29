@@ -1,22 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.notifications.SettingsFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/text_notifications"
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.timetracker.ui.fragment.notifications.SettingsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.notifications.SettingsFragment">
+
+        <ImageView
+            android:id="@+id/image_view_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/enable_switch_today_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@={ vm.preferences.todaySectionEnabled }"
+            android:text="Enable today section"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_icon" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_use_biometric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@={ vm.preferences.useBiometric }"
+            android:text="Use biometric to enter the app"
+            app:layout_constraintTop_toBottomOf="@+id/enable_switch_today_section" />
+
+        <Button
+            android:id="@+id/button_change_pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> vm.onChangePasswordClick()}"
+            android:text="Change pin"
+            app:layout_constraintTop_toBottomOf="@+id/switch_use_biometric" />
+
+        <Button
+            android:id="@+id/button_clean_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:onClick="@{() -> vm.onCleanTasksClick()}"
+            android:text="Clean tasks"
+            app:layout_constraintTop_toBottomOf="@+id/button_change_pin" />
+
+        <Button
+            android:id="@+id/button_clean_all_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> vm.onCleanAllDataClick()}"
+            android:text="Clean all data"
+            app:layout_constraintTop_toBottomOf="@+id/button_clean_tasks" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

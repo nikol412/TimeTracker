@@ -1,11 +1,9 @@
 package com.example.timetracker.ui.fragment.notifications
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
+import com.example.timetracker.common.live.SingleLiveEvent
+import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.data.preferences.TimeTrackerPreferences
-import com.example.timetracker.di.components.AppComponent
 import com.example.timetracker.ui.base.BaseViewModel
 import javax.inject.Inject
 
@@ -14,15 +12,49 @@ class SettingsViewModel : BaseViewModel() {
     @Inject
     lateinit var preferences: TimeTrackerPreferences
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
+    @Inject
+    lateinit var taskRepository: TaskRepository
+
+    val settingsEvents = SingleLiveEvent<SettingsEvents>()
 
     init {
         App.appComponent?.inject(this)
-
-        preferences.pin = "3831"
-        Log.d("Prefs", preferences.pin ?: "")
     }
+
+    private fun cleanTasks() {
+        taskRepository.cleanTasksAsync()
+    }
+
+    private fun cleanPreferences() {
+        preferences.clearPreferences()
+    }
+
+    fun changePin(pin: String) {
+        preferences.pin = pin
+    }
+
+    fun onCleanTasksClick() {
+        cleanTasks()
+    }
+
+    fun onCleanAllDataClick() {
+        cleanTasks()
+        cleanPreferences()
+    }
+
+    fun onChangePasswordClick() {
+        settingsEvents.value = SettingsEvents.CHANGE_PASSWORD
+    }
+
+    // fields:
+    // 1) app icon in header
+    // 2) clean data
+    // 3) change password
+    // 4) use biometric
+    // 5) show today section in tasks
+
+}
+
+enum class SettingsEvents {
+    CHANGE_PASSWORD
 }
