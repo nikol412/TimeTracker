@@ -27,33 +27,15 @@ class DatabaseModule(val context: Context) {
     }
 
     private fun createDefaultRealmConfig() {
-        val key = ByteArray(64)
-        SecureRandom().nextBytes(key)
+//        val key = ByteArray(64)
+//
+//        SecureRandom().nextBytes(key)
+
         val config = RealmConfiguration.Builder()
             .name("time_tracker.realm")
-            .apply {
-                if (BuildConfig.DEBUG.not()) {
-//                    inMemory()
-//                    encryptionKey(key)
-                }
-            }
-            //TODO REMINDER: after release use migrations
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
-    }
-
-    private fun deleteDBFile() {
-        //if (BuildConfig.DEBUG.not()) {
-        try {
-            val realmFile = File("/data/data/${context.packageName}/files/98Gym.realm")
-            if (realmFile.exists()) {
-                realmFile.delete()
-            }
-        } catch (ex: Exception) {
-            Log.e("DatabaseModule", ex.message, ex)
-        }
-        //}
     }
 
     @Provides

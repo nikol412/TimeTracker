@@ -9,7 +9,6 @@ import com.example.timetracker.ui.base.BaseViewModel
 import com.example.timetracker.ui.fragment.dashboard.StatisticsViewModel
 import com.example.timetracker.ui.fragment.home.HomeViewModel
 import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogViewModel
-import com.example.timetracker.ui.fragment.newItem.NewItemViewModel
 import com.example.timetracker.ui.fragment.notifications.SettingsViewModel
 import dagger.BindsInstance
 import dagger.Component
@@ -42,8 +41,6 @@ interface AppComponent {
     fun inject(baseVM: BaseViewModel)
 
     fun inject(homeVM: HomeViewModel)
-
-    fun inject(newItem: NewItemViewModel)
 
     fun inject(createTaskBottomSheetDialogViewModel: CreateTaskBottomSheetDialogViewModel)
 

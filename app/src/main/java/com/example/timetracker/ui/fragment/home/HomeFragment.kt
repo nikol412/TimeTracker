@@ -11,7 +11,6 @@ import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
 import com.example.timetracker.ui.base.BaseViewModel
-import com.example.timetracker.ui.fragment.newItem.NewItemBottomSheetDialog
 import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogFragment
 
 class HomeFragment : BaseFragment() {
