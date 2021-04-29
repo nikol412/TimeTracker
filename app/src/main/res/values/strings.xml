@@ -10,4 +10,9 @@
     <string name="category">Category</string>
     <string name="task_title">Task title</string>
     <string name="date">Date</string>
+    <string name="use_biometric_to_enter_the_app">Use biometric to enter the app</string>
+    <string name="enable_today_section">Enable today section</string>
+    <string name="change_pin">Change pin</string>
+    <string name="clean_tasks">Clean tasks</string>
+    <string name="clean_all_data">Clean all data</string>
 </resources>

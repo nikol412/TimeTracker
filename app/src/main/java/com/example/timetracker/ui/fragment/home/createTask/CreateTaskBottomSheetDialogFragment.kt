@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentCreateTaskBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -54,18 +55,15 @@ class CreateTaskBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     fun subscribeViewModelVariables() {
-        viewModel.event.observe(viewLifecycleOwner, { event ->
+        viewModel.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 CreateTaskEvent.ADD_TASK -> this.dismiss()
                 CreateTaskEvent.DATE -> showDatePicker()
             }
-        })
+        }
     }
-
-
+    
     private fun showDatePicker() {
         datePicker.show()
     }
-
-
 }

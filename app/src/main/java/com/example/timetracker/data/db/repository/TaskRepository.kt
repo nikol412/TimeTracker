@@ -13,17 +13,9 @@ class TaskRepository @Inject constructor() : IRepository {
     var realm = Realm.getDefaultInstance()
 
     fun createTask(task: Task) {
-        realm.executeTransaction { realm ->
+        realm.executeTransactionAsync { realm ->
             realm.copyToRealmOrUpdate(task)
         }
-    }
-
-    fun createTask(title:String, category: String, createdAt: Date, description: String) {
-        createTask(Task(title = title,
-            category = category,
-            createdDate = createdAt,
-            description = description
-        ))
     }
 
     fun getTasksByDate(): RealmResults<Task>? {
@@ -34,7 +26,13 @@ class TaskRepository @Inject constructor() : IRepository {
 
     fun getTasksAsync(): RealmResults<Task> {
         return realm.where(Task::class.java)
-            .findAll()
+            .findAllAsync()
+    }
+
+    fun cleanTasksAsync() {
+        realm.executeTransactionAsync {
+            it.deleteAll()
+        }
     }
 
 
