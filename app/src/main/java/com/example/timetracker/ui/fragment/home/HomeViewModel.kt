@@ -3,11 +3,12 @@ package com.example.timetracker.ui.fragment.home
 import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
 import com.example.timetracker.data.db.model.Task
-import com.example.timetracker.data.db.model.User
 import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.data.db.repository.UserRepository
+import com.example.timetracker.data.preferences.TimeTrackerPreferences
 import com.example.timetracker.ui.base.BaseViewModel
-import io.realm.RealmResults
+import com.example.timetracker.ui.model.AlertObject
+import java.util.*
 import javax.inject.Inject
 
 class HomeViewModel : BaseViewModel() {
@@ -18,14 +19,29 @@ class HomeViewModel : BaseViewModel() {
     @Inject
     lateinit var taskRepository: TaskRepository
 
+    @Inject
+    lateinit var preferences: TimeTrackerPreferences
+
     var homeLabel = MutableLiveData<String>()
     var tasks = MutableLiveData<List<Task>>()
 
+
     init {
         App.appComponent?.inject(this)
+        fetchTasks()
+    }
 
-        taskRepository.getTasksByDate()?.addChangeListener { result, changeSet ->
-            tasks.value = result.toList()
+    private fun fetchTasks() {
+        val flowable = taskRepository.getTasksByDate()
+
+        flowable?.let { flowable ->
+            compositeDisposable.add(
+                flowable.subscribe({ fetchedTasks ->
+                    tasks.value = fetchedTasks.sortedByDescending { it.date }
+                }, { error ->
+                    this.onAlertDialogNeeded.value = AlertObject("Error fetching tasks")
+                })
+            )
         }
     }
 }
