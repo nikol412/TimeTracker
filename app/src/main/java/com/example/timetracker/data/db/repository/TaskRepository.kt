@@ -28,18 +28,33 @@ class TaskRepository @Inject constructor() : IRepository {
     fun getTasksByDate(): Flowable<RealmResults<Task>>? {
         return realm.where(Task::class.java)
             .sort(Task::date.name, Sort.DESCENDING)
+            .equalTo(Task::isDone.name, false)
             .findAllAsync()
             .asFlowable()
     }
 
-    fun getTasksAsync(): RealmResults<Task> {
+    fun getTasksAsync(): Flowable<RealmResults<Task>>? {
         return realm.where(Task::class.java)
+            .equalTo(Task::isDone.name, false)
             .findAllAsync()
+            .asFlowable()
     }
 
     fun cleanTasksAsync() {
         realm.executeTransactionAsync {
             it.deleteAll()
+        }
+    }
+
+    fun markAsDone(task: Task, date: String) {
+        realm.executeTransactionAsync {
+            it.where(Task::class.java)
+                .equalTo(Task::id.name, task.id)
+                .findAllAsync()
+                .forEach { task ->
+                    task.isDone = true
+                    task.doneDate = date
+                }
         }
     }
 
