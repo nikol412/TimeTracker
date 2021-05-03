@@ -25,7 +25,13 @@ class CreateTaskBottomSheetDialogViewModel : BaseViewModel() {
 
     fun onCreateTaskClick() {
         App.appComponent?.inject(this)
-        taskRepository.createTask(Task(taskName.value!!, taskDate.value!!, taskDescription.value!!))
+        taskRepository.createTask(
+            Task(
+                taskName.value ?: "",
+                taskDate.value ?: "",
+                taskDescription.value ?: ""
+            )
+        )
         event.value = CreateTaskEvent.ADD_TASK
     }
 

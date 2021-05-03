@@ -4,7 +4,6 @@ import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
 import com.example.timetracker.R
-import com.example.timetracker.common.extension.toDate
 import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.ui.base.BaseViewModel
 import com.github.mikephil.charting.data.PieData
@@ -34,22 +33,17 @@ class StatisticsViewModel : BaseViewModel() {
         taskRepository.getTasksAsync().let {
             val currentDate = Calendar.getInstance()
             tasksWithPreviousDateCount = it.count { task ->
-                if(task.createdAt == null) return@count false
-                return@count task.createdAt!! < currentDate.time
+                if (task.date == null) return@count false
+                return@count task.date!! < currentDate.time
             }
             tasksWithFutureDateCount = it.count { task ->
-                if(task.createdAt == null) return@count false
-                return@count task.createdAt!! > currentDate.time
-
-//                return@count if (task.date.isNotBlank()) {
-//                    task.date.toDate()!! >= currentDate.time
-//                } else false
+                if (task.date == null) return@count false
+                return@count task.date!! > currentDate.time
             }
 
             tasksWithoutDate = it.count { task ->
-                if(task.createdAt == null) return@count true
+                if (task.date == null) return@count true
                 return@count false
-//                return@count task.date.isBlank()
             }
         }
         val colorList = mutableListOf<Int>()
