@@ -9,19 +9,35 @@ open class Task : RealmObject {
     @PrimaryKey
     var id: Int = 0
     var title: String = ""
-    var createdAt: Date? = null
+    var date: Date? = null
     var description: String = ""
+
+    var createdAt: Date? = null
+
+    var isDone: Boolean = false
+    var doneDate: String ? = null
 
     constructor() : super()
 
     constructor(title: String, createdDate: String, description: String) {
-        this.id = createdDate.hashCode()
         this.title = title
         try {
-            this.createdAt = createdDate.toDate()
+            this.date = createdDate.toDate()
         } catch (e: Exception) {
             return
         }
+        this.description = description
+    }
+
+    constructor(title: String, targetDate: String, description: String, createdAt: Date) {
+        this.title = title
+        try {
+            this.date = targetDate.toDate()
+        } catch (e: Exception) {
+            return
+        }
+
+        this.createdAt = createdAt
         this.description = description
     }
 
@@ -31,17 +47,12 @@ open class Task : RealmObject {
         if (other !is Task) return false
         if (id != other.id) return false
         if (title != other.title) return false
-        if (createdAt != other.createdAt) return false
+        if (date != other.date) return false
         if (description != other.description) return false
+        if (createdAt != other.createdAt) return false
+        if (isDone != other.isDone) return false
+        if (doneDate != other.doneDate) return false
 
         return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id
-        result = result * 31 + title.hashCode()
-        result = result * 31 + createdAt.hashCode()
-        result = result * 31 + description.hashCode()
-        return result
     }
 }

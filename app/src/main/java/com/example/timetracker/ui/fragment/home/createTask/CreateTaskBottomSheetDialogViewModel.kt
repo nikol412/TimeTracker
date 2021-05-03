@@ -2,10 +2,12 @@ package com.example.timetracker.ui.fragment.home.createTask
 
 import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
+import com.example.timetracker.common.extension.toFormattedString
 import com.example.timetracker.common.live.SingleLiveEvent
 import com.example.timetracker.data.db.model.Task
 import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.ui.base.BaseViewModel
+import java.util.*
 import javax.inject.Inject
 
 class CreateTaskBottomSheetDialogViewModel : BaseViewModel() {
@@ -25,7 +27,14 @@ class CreateTaskBottomSheetDialogViewModel : BaseViewModel() {
 
     fun onCreateTaskClick() {
         App.appComponent?.inject(this)
-        taskRepository.createTask(Task(taskName.value!!, taskDate.value!!, taskDescription.value!!))
+        taskRepository.createTask(
+            Task(
+                taskName.value ?: "",
+                taskDate.value ?: "",
+                taskDescription.value ?: "",
+                Calendar.getInstance().time
+            )
+        )
         event.value = CreateTaskEvent.ADD_TASK
     }
 

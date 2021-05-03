@@ -1,15 +1,13 @@
 package com.example.timetracker.ui.fragment.dashboard
 
-import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import com.example.timetracker.App
 import com.example.timetracker.R
-import com.example.timetracker.common.extension.toDate
+import com.example.timetracker.common.extension.toFormattedString
+import com.example.timetracker.data.db.model.Task
 import com.example.timetracker.data.db.repository.TaskRepository
 import com.example.timetracker.ui.base.BaseViewModel
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.example.timetracker.ui.model.AlertObject
 import java.util.*
 import javax.inject.Inject
 
@@ -18,58 +16,60 @@ class StatisticsViewModel : BaseViewModel() {
     @Inject
     lateinit var taskRepository: TaskRepository
 
-    val pieData = MutableLiveData<PieData>()
+    val creatingTasksChartData = MutableLiveData<BarEntries>()
+    val completedTasksChartData = MutableLiveData<BarEntries>()
+    val allTasksCount = MutableLiveData<Int>()
 
     init {
         App.appComponent?.inject(this)
-        fetchDataForPieChart()
+        fetchDataForCharts()
     }
 
-    fun fetchDataForPieChart() {
+    private fun fetchDataForCharts() {
+        val flowable = taskRepository.getTasksAsync()
 
-        var tasksWithPreviousDateCount = 0
-        var tasksWithFutureDateCount = 0
-        var tasksWithoutDate = 0
+        flowable?.let { flowable ->
+            compositeDisposable.add(flowable.subscribe({ fetchedTasks ->
+                allTasksCount.value = fetchedTasks.count()
 
-        taskRepository.getTasksAsync().let {
-            val currentDate = Calendar.getInstance()
-            tasksWithPreviousDateCount = it.count { task ->
-                if(task.createdAt == null) return@count false
-                return@count task.createdAt!! < currentDate.time
-            }
-            tasksWithFutureDateCount = it.count { task ->
-                if(task.createdAt == null) return@count false
-                return@count task.createdAt!! > currentDate.time
-
-//                return@count if (task.date.isNotBlank()) {
-//                    task.date.toDate()!! >= currentDate.time
-//                } else false
-            }
-
-            tasksWithoutDate = it.count { task ->
-                if(task.createdAt == null) return@count true
-                return@count false
-//                return@count task.date.isBlank()
-            }
+                updateCreatingTaskChart(fetchedTasks)
+                updateCompletedTaskChart(fetchedTasks)
+            }, {
+                this.onAlertDialogNeeded.value = AlertObject("Error calculating statistics")
+            }))
         }
-        val colorList = mutableListOf<Int>()
-        colorList.add(resourceGetter.getColor(R.color.colorPrimary))
-        colorList.add(Color.MAGENTA)
-        colorList.add(resourceGetter.getColor(R.color.grayDark))
+    }
 
-        val pieEntryList = mutableListOf<PieEntry>()
-        pieEntryList.add(PieEntry(tasksWithFutureDateCount.toFloat(), "Предстоящие"))
-        pieEntryList.add(PieEntry(tasksWithPreviousDateCount.toFloat(), "Прошедшие"))
-        pieEntryList.add(PieEntry(tasksWithoutDate.toFloat(), "Без даты"))
+    private fun updateCreatingTaskChart(tasks: List<Task>) {
+        val colorList = List(7) { resourceGetter.getColor(R.color.colorPrimary) }
 
+        val valuesList = mutableListOf<Pair<String, Float>>()
 
-        val pieDataSet = PieDataSet(pieEntryList, "Tasks")
-        pieDataSet.valueTextSize = 12F
-        pieDataSet.colors = colorList
-        val newPieData = PieData(pieDataSet)
-        newPieData.setDrawValues(true)
+        for (dayNum in (6 downTo 0)) {
+            val neededDay = Calendar.getInstance()
+            neededDay.add(Calendar.DAY_OF_MONTH, -dayNum)
+            val formattedDate = neededDay.time.toFormattedString()
+            val label = if (dayNum == 0) "Current \nday" else ""
+            valuesList.add(Pair(label, tasks.count {
+                val taskFormattedDay = it.createdAt?.toFormattedString()
+                taskFormattedDay == formattedDate
+            }.toFloat()))
+        }
 
-        pieData.value = newPieData
+        creatingTasksChartData.value = BarEntries(colorList, valuesList)
+    }
 
+    private fun updateCompletedTaskChart(tasks: List<Task>) {
+        val colorList = List(2) { resourceGetter.getColor(R.color.colorPrimary) }
+
+        val valuesList = mutableListOf<Pair<String, Float>>()
+
+        valuesList.add(Pair("Finished", tasks.count { it.isDone }.toFloat()))
+        valuesList.add(Pair("Unfinished", tasks.count { !it.isDone }.toFloat()))
+
+        completedTasksChartData.value = BarEntries(colorList, valuesList)
     }
 }
+
+
+data class BarEntries(val listOfColors: List<Int>, val listOfValues: List<Pair<String, Float>>)

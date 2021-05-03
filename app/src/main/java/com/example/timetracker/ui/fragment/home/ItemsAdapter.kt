@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.timetracker.R
 import com.example.timetracker.data.db.model.Task
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -47,7 +46,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val itemDate = itemView.findViewById<TextView>(R.id.task_date)
 
     fun onBind(task: Task) {
-        task.createdAt?.let { date ->
+        task.date?.let { date ->
             itemDate.text = getCharacterDate(date)
         }
         itemName.text = task.title
@@ -56,7 +55,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     private fun getCharacterDate(stringDate: String): String {
-        if(stringDate.isBlank()) return ""
+        if (stringDate.isBlank()) return ""
 
         val calendar = Calendar.getInstance()
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
@@ -72,6 +71,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
         return finalDate
     }
+
     private fun getCharacterDate(date: Date): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val dateString = sdf.format(date)
