@@ -10,12 +10,12 @@ import com.example.timetracker.data.db.model.Task
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ItemsAdapter(private val onItemDismiss: OnItemDismiss) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), TaskTouchHelperAdapter {
 
-    private var mItems: List<Task> = mutableListOf()
+    private var mItems = mutableListOf<Task>()
 
     fun setItems(items: List<Task>) {
-        mItems = items
+        mItems = items.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -38,6 +38,12 @@ class ItemsAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int = mItems.size
+
+    override fun onItemDismiss(position: Int) {
+        mItems.removeAt(position)
+        notifyItemRemoved(position)
+        onItemDismiss.onDismiss(position)
+    }
 }
 
 class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -77,4 +83,8 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateString = sdf.format(date)
         return getCharacterDate(dateString)
     }
+}
+
+interface OnItemDismiss {
+    fun onDismiss(position: Int)
 }
