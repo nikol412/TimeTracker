@@ -50,7 +50,7 @@ class TaskRepository @Inject constructor() : IRepository {
         realm.executeTransactionAsync {
             it.where(Task::class.java)
                 .equalTo(Task::id.name, task.id)
-                .findAllAsync()
+                .findAll()
                 .forEach { task ->
                     task.isDone = true
                     task.doneDate = date
