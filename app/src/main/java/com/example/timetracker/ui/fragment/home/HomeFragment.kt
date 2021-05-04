@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentHomeBinding
 import com.example.timetracker.ui.base.BaseFragment
@@ -31,17 +33,24 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, layoutRes(), container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        adapter = ItemsAdapter()
+        adapter = ItemsAdapter(object: OnItemDismiss {
+            override fun onDismiss(position: Int) {
+                viewModel.markTaskAsDone(position)
+            }
+        })
+
+        configureTouchHelper(adapter, binding.homeRecyclerView)
 
         binding.homeRecyclerView.adapter = adapter
 
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.addToBackStack(null)
-//        NewItemBottomSheetDialog().show(fragmentTransaction, "")
+        fragmentTransaction.commit()
+
         return binding.root
     }
 
@@ -55,4 +64,42 @@ class HomeFragment : BaseFragment() {
             createTaskFragment.show(childFragmentManager, "bottomSheet")
         }
     }
+
+    private fun configureTouchHelper(adapter: ItemsAdapter, recyclerView: RecyclerView) {
+        val callback = TaskTouchHelperImpl(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerView)
+    }
+}
+
+class TaskTouchHelperImpl(private val touchHelperAdapter: TaskTouchHelperAdapter): ItemTouchHelper.Callback() {
+
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val swipeFlags = ItemTouchHelper.END
+
+        return makeMovementFlags(0, swipeFlags)
+    }
+
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
+        return true
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        touchHelperAdapter.onItemDismiss(viewHolder.adapterPosition)
+    }
+
+    override fun isItemViewSwipeEnabled(): Boolean {
+        return true
+    }
+}
+
+interface TaskTouchHelperAdapter {
+    fun onItemDismiss(position: Int)
 }
