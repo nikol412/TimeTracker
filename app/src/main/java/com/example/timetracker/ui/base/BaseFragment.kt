@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.timetracker.ui.fragment.OkDialogFragment
 import dagger.android.support.DaggerFragment
 
@@ -21,6 +22,8 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        baseViewModel().navController = findNavController()
 
         subscribeToViewModelsObservables()
     }

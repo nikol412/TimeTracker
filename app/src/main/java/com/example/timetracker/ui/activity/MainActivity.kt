@@ -15,7 +15,7 @@ class MainActivity : BaseActivity() {
 
     // add fragments which should be without nav bar
     private val NEED_HIDE_NAV_BAR =
-        setOf(1)
+        setOf(R.id.splashFragment)
 
 
     override fun layoutRes(): Int = R.layout.activity_main
