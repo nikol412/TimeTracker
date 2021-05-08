@@ -8,6 +8,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.example.timetracker.R
 import com.example.timetracker.databinding.FragmentSplashBinding
 import com.example.timetracker.ui.base.BaseFragment
@@ -28,6 +30,8 @@ class SplashFragment : BaseFragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_splash, container, false)
         binding.vm = viewModel
+        viewModel.navController = findNavController()
+        viewModel.configureLogin()
 
         binding.lifecycleOwner = this
         return binding.root
@@ -36,7 +40,7 @@ class SplashFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.events.observe(viewLifecycleOwner, { event ->
+        viewModel.events.observe(viewLifecycleOwner) { event ->
             when (event) {
                 SplashActions.USE_BIOMETRIC -> {
                     //TODO implement login via biometric
@@ -48,7 +52,7 @@ class SplashFragment : BaseFragment() {
                     //ignore
                 }
             }
-        })
+        }
     }
 
 }

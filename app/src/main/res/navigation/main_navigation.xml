@@ -28,4 +28,10 @@
         android:name="com.example.timetracker.ui.fragment.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.timetracker.ui.fragment.splash.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"/>
 </navigation>

@@ -26,7 +26,7 @@ class SplashViewModel : BaseViewModel() {
 
     init {
         App.appComponent?.inject(this)
-        configureLogin()
+        //configureLogin()
 
         pinInput.observeForever(pinObserver)
     }
@@ -36,7 +36,7 @@ class SplashViewModel : BaseViewModel() {
         super.onCleared()
     }
 
-    private fun configureLogin() {
+    fun configureLogin() {
         if (preferences.isFirstEnter) navigateToLogin()
 
         if (preferences.isUseBiometric) authViaBiometric()
@@ -45,8 +45,7 @@ class SplashViewModel : BaseViewModel() {
     }
 
     private fun navigateToLogin() {
-        //TODO implement navigation to login screen
-        onAlertDialogNeeded.value = AlertObject("Navigate to login action")
+        navigateTo(R.id.loginFragment)
     }
 
     private fun authViaBiometric() {
