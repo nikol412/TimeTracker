@@ -25,6 +25,17 @@
             android:text="@string/app_name"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/text_view_user_login"
+            style="@style/medium_text.statistics_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@{vm.preferences.login}"
+            app:layout_constraintTop_toBottomOf="@id/text_view_app_title"
+            tools:text="user login"/>
+
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_use_biometric"
             style="@style/settings_item_switch"
@@ -32,7 +43,7 @@
             android:layout_height="wrap_content"
             android:checked="@={ vm.preferences.useBiometric }"
             android:text="@string/use_biometric_to_enter_the_app"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_app_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_user_login" />
 
         <Button
             android:id="@+id/button_change_pin"
