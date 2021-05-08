@@ -25,7 +25,7 @@ class LoginViewModel : BaseViewModel() {
             validatePin(pin.value ?: "")
         ) {
             savePreferences(login.value!!, pin.value!!)
-            navigateTo(R.id.navigation_home)
+            navigateToHome()
 
         } else {
             onAlertDialogNeeded.value = AlertObject("Invalid login or pin")
@@ -42,5 +42,9 @@ class LoginViewModel : BaseViewModel() {
 
     private fun validateLogin(login: String) = login.isNotBlank()
     private fun validatePin(pin: String) = pin.isNotBlank() && pin.length == 4
+
+    fun navigateToHome() {
+        navigateTo(R.id.navigation_home)
+    }
 
 }

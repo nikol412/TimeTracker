@@ -40,8 +40,7 @@ class SplashViewModel : BaseViewModel() {
         if (preferences.isFirstEnter) navigateToLogin()
 
         if (preferences.isUseBiometric) authViaBiometric()
-
-        authViaPin()
+        else authViaPin()
     }
 
     private fun navigateToLogin() {
@@ -82,6 +81,12 @@ class SplashViewModel : BaseViewModel() {
     fun onUsePinClick() {
         authViaPin()
     }
+
+    fun navigateToHome() {
+        navigateTo(R.id.navigation_home)
+    }
+
+    fun checkIsUseBiometric() = preferences.isUseBiometric
 }
 
 enum class SplashActions {

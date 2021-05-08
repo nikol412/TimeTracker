@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.timetracker.R
+import com.example.timetracker.common.BIOMETRIC_AUTH_RESULT
+import com.example.timetracker.common.BiometricAuth
 import com.example.timetracker.databinding.FragmentSplashBinding
 import com.example.timetracker.ui.base.BaseFragment
 import com.example.timetracker.ui.base.BaseViewModel
@@ -43,13 +45,23 @@ class SplashFragment : BaseFragment() {
         viewModel.events.observe(viewLifecycleOwner) { event ->
             when (event) {
                 SplashActions.USE_BIOMETRIC -> {
-                    //TODO implement login via biometric
+                    askForBiometricAuth()
                 }
                 SplashActions.USE_PIN -> {
                     binding.editTextPin.requestFocus()
                 }
                 else -> {
                     //ignore
+                }
+            }
+        }
+    }
+
+    private fun askForBiometricAuth() {
+        if (BiometricAuth.isBiometricAvailable(requireContext()) && viewModel.checkIsUseBiometric()) {
+            BiometricAuth.launchBiometricAuth(requireContext(), this) { result ->
+                when(result) {
+                    BIOMETRIC_AUTH_RESULT.SUCCESS -> viewModel.navigateToHome()
                 }
             }
         }

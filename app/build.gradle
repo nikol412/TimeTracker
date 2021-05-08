@@ -135,4 +135,7 @@ dependencies {
     // Tooltips
     implementation 'com.diogobernardino.williamchart:tooltip-slider:3.10.1'
     implementation 'com.diogobernardino.williamchart:tooltip-points:3.10.1'
+
+    //Biometric
+    implementation "androidx.biometric:biometric:1.0.1"
 }
