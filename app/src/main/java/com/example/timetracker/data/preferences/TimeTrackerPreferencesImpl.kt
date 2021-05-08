@@ -17,9 +17,7 @@ class TimeTrackerPreferencesImpl(
         PIN("pin"),
         BIOMETRIC("biometric"),
         FIRST_ENTER("first_enter"),
-        TODAY_SECTION("today_section"),
-        MOVE_STARRED_TASKS_TO_TOP("move_starred_tasks"),
-        CONFIRM_BEFORE_DELETING("confirm_to_delete")
+        LOGIN("login")
     }
 
     private val keystoreName = "AndroidKeyStore"
@@ -93,35 +91,31 @@ class TimeTrackerPreferencesImpl(
                 }
             }
 
-            override var confirmBeforeDeleting: Boolean
-            get() = sharedPreferences.getBoolean(KeyPreferences.CONFIRM_BEFORE_DELETING.key, true)
-            set(value) {
-                sharedPreferences.edit()
-                    .putBoolean(KeyPreferences.CONFIRM_BEFORE_DELETING.key, value)
-                    .apply()
+    override var login: String?
+        get() {
+            val storedValue = sharedPreferences.getString(KeyPreferences.LOGIN.key, null)
+            return storedValue?.let {
+                decrypt(it)
+            } ?: kotlin.run {
+                null
             }
+        }
+        set(value) {
+            value?.let { safeValue ->
+                val encryptedValue = encrypt(safeValue)
+                sharedPreferences.edit()
+                    .putString(KeyPreferences.LOGIN.key, encryptedValue)
+                    .commit()
+            } ?: run {
+                sharedPreferences.edit().putString(KeyPreferences.LOGIN.key, null).commit()
+            }
+        }
 
             override var isFirstEnter: Boolean
             get() = sharedPreferences.getBoolean(KeyPreferences.FIRST_ENTER.key, true)
             set(value) {
                 sharedPreferences.edit()
                     .putBoolean(KeyPreferences.FIRST_ENTER.key, value)
-                    .apply()
-            }
-
-            override var isMoveStarredTasksToTop: Boolean
-            get() = sharedPreferences.getBoolean(KeyPreferences.MOVE_STARRED_TASKS_TO_TOP.key, true)
-            set(value) {
-                sharedPreferences.edit()
-                    .putBoolean(KeyPreferences.MOVE_STARRED_TASKS_TO_TOP.key, value)
-                    .apply()
-            }
-
-            override var isTodaySectionEnabled: Boolean
-            get() = sharedPreferences.getBoolean(KeyPreferences.TODAY_SECTION.key, true)
-            set(value) {
-                sharedPreferences.edit()
-                    .putBoolean(KeyPreferences.TODAY_SECTION.key, value)
                     .apply()
             }
 
@@ -136,10 +130,7 @@ class TimeTrackerPreferencesImpl(
             override fun clearPreferences() {
                 isUseBiometric = true
                 isFirstEnter = true
-                isTodaySectionEnabled = true
-                isMoveStarredTasksToTop = true
-                confirmBeforeDeleting = true
-
+                login = null
                 pin = null
 
             }

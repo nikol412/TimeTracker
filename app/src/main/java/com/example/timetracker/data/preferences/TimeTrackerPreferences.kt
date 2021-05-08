@@ -6,11 +6,7 @@ interface TimeTrackerPreferences {
 
     var isFirstEnter: Boolean
 
-    var isTodaySectionEnabled: Boolean
-
-    var isMoveStarredTasksToTop: Boolean
-
-    var confirmBeforeDeleting: Boolean
+    var login: String?
 
     var pin: String?
 
