@@ -11,6 +11,7 @@ import com.example.timetracker.ui.fragment.home.HomeViewModel
 import com.example.timetracker.ui.fragment.home.createTask.CreateTaskBottomSheetDialogViewModel
 import com.example.timetracker.ui.fragment.notifications.SettingsViewModel
 import com.example.timetracker.ui.fragment.splash.SplashViewModel
+import com.example.timetracker.ui.fragment.splash.login.LoginViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -50,4 +51,6 @@ interface AppComponent {
     fun inject(settingsVM: SettingsViewModel)
 
     fun inject(splashVM: SplashViewModel)
+
+    fun inject(loginVM: LoginViewModel)
 }

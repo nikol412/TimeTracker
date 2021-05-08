@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.example.timetracker.ui.fragment.splash.login.LoginViewModel" />
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         tools:context=".ui.fragment.splash.login.LoginFragment">
 
         <TextView
+            style="@style/medium_text.statistics_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@{vm.text}"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="40dp"
+            android:text="Set up your login and pin"
             android:textColor="@color/colorPrimary"
-            android:textSize="34sp"/>
+            android:textSize="34sp" />
 
-    </FrameLayout>
+        <EditText
+            android:id="@+id/edit_text_login"
+            style="@style/login_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={vm.login}"
+            tools:text="user login" />
+
+        <EditText
+            android:id="@+id/edit_text_pin"
+            style="@style/login_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:text="@={vm.pin}"
+            tools:text="user pin" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_use_biometric"
+            style="@style/login_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@={ vm.preferences.useBiometric }"
+            android:text="@string/use_biometric_to_enter_the_app" />
+
+        <Button
+            android:id="@+id/button_sign_up"
+            style="@style/settings_item_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> vm.onSignUpClick() }"
+            android:text="Sign Up" />
+
+    </LinearLayout>
 </layout>
